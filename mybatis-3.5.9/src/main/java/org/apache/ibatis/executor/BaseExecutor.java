@@ -336,6 +336,15 @@ public abstract class BaseExecutor implements Executor {
   protected Connection getConnection(Log statementLog) throws SQLException {
     Connection connection = transaction.getConnection();
     if (statementLog.isDebugEnabled()) {
+      /**
+       * ConnectionLogger 是 Connection 的动态代理 InvocationHandler 类 ，生成动态代理类对象代理原生的 Connection ，包含对原生对象的引用 ，
+       * 1. 用于在执行 prepareStatement 和 prepareCall 方法时，输出执行的 sql 语句（日志以 Preparing: 开头）
+       * 2. 针对通过 Connection 的动态代理类对象生成的 PreparedStatement/Statement ，也会生成其对应的动态代理 InvocationHandler 类 PreparedStatementLogger/StatementLogger 对象，
+       *    用于代理原生 PreparedStatement/Statement 的，包含对原生对象的引用
+       *    2.1 PreparedStatementLogger 会额外多输出 sql 语句关联的参数（日志以 Parameters: 开头），
+       *    2.2 针对通过 Statement/PreparedStatement  的动态代理类对象生成的 ResultSet ，也会生成其对应的动态代理 InvocationHandler 类 ResultSetLogger 的对象
+       *        2.2.1 ResultSetLogger 会输出所有列信息
+       */
       return ConnectionLogger.newInstance(connection, statementLog, queryStack);
     } else {
       return connection;
