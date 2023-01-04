@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2023 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -144,6 +144,13 @@ public class ParamNameResolver {
   }
 
   /**
+   * 如果 object 对象是集合或者数组，会将对象包裹到 ParamMap 中，否则返回原始 object 对象
+   *
+   * ParamMap 是一个 Map 的子类
+   * 针对 Collection: map.put("collection", object);
+   * 针对 List: map.put("list", object);
+   * 针对 Array: map.put("array", object);
+   *
    * Wrap to a {@link ParamMap} if object is {@link Collection} or array.
    *
    * @param object a parameter object

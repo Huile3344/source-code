@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2023 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,6 +30,10 @@ import org.apache.ibatis.session.Configuration;
  * the value from).
  * <p>
  * Can also have additional parameters that are created by the dynamic language (for loops, bind...).
+ * <p>
+ * 翻译: 处理任何动态内容后从 SqlSource 获得的实际 SQL 字符串。 SQL 可能有 SQL 占位符“？” 以及参数映射的列表（有序），
+ * 其中包含每个参数的附加信息（至少是要从中读取值的输入对象的属性名称）。
+ * 还可以具有由动态语言创建的附加参数（用于 循环、绑定...）。
  *
  * @author Clinton Begin
  */
