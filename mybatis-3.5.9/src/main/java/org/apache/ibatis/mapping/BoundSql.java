@@ -39,10 +39,25 @@ import org.apache.ibatis.session.Configuration;
  */
 public class BoundSql {
 
+  /**
+   * 对应的是 ${} 替换成对应字符串 和 #{} 替换成 ? 后的 sql
+   */
   private final String sql;
+  /**
+   * 每一个 ParameterMapping 对象，对应一个 #{}
+   */
   private final List<ParameterMapping> parameterMappings;
+  /**
+   * Mapper 的入参对象
+   */
   private final Object parameterObject;
+  /**
+   * 附加的参数
+   */
   private final Map<String, Object> additionalParameters;
+  /**
+   * additionalParameters 的 MetaObject
+   */
   private final MetaObject metaParameters;
 
   public BoundSql(Configuration configuration, String sql, List<ParameterMapping> parameterMappings, Object parameterObject) {

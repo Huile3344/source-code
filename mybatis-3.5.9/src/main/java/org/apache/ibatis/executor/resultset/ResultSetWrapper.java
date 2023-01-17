@@ -54,11 +54,15 @@ public class ResultSetWrapper {
     super();
     this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();
     this.resultSet = rs;
+    // 获取 ResultSet 的元数据
     final ResultSetMetaData metaData = rs.getMetaData();
     final int columnCount = metaData.getColumnCount();
     for (int i = 1; i <= columnCount; i++) {
+      // 获取字段名称
       columnNames.add(configuration.isUseColumnLabel() ? metaData.getColumnLabel(i) : metaData.getColumnName(i));
+      // 获取字段jdbc类型
       jdbcTypes.add(JdbcType.forCode(metaData.getColumnType(i)));
+      // 获取字段Java类型名称
       classNames.add(metaData.getColumnClassName(i));
     }
   }
@@ -144,6 +148,12 @@ public class ResultSetWrapper {
     return null;
   }
 
+  /**
+   * 加载已映射和未映射的列名集合
+   * @param resultMap
+   * @param columnPrefix
+   * @throws SQLException
+   */
   private void loadMappedAndUnmappedColumnNames(ResultMap resultMap, String columnPrefix) throws SQLException {
     List<String> mappedColumnNames = new ArrayList<>();
     List<String> unmappedColumnNames = new ArrayList<>();

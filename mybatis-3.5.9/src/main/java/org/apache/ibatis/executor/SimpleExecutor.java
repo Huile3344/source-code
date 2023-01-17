@@ -59,7 +59,9 @@ public class SimpleExecutor extends BaseExecutor {
     try {
       Configuration configuration = ms.getConfiguration();
       StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);
+      // 获取 Statement ，并对 Statement 做超时等参数设置，以及指定 sql 中的参数
       stmt = prepareStatement(handler, ms.getStatementLog());
+      // 执行查询，并将 ResultSet 结果转换为特定结果对象
       return handler.query(stmt, resultHandler);
     } finally {
       closeStatement(stmt);
@@ -85,9 +87,9 @@ public class SimpleExecutor extends BaseExecutor {
     Statement stmt;
     // 通过 Transaction 获取 Connection ， 最终是通过 DriverManager.getConnection(url, properties) 生成连接
     Connection connection = getConnection(statementLog);
-    // 通过 Connection 获取 Statement ， 并设置Statement参数
+    // 通过 Connection 获取 Statement ， 并设置 Statement 的超时时间和fetchSize参数
     stmt = handler.prepare(connection, transaction.getTimeout());
-    // 为 PreparedStatement/CallableStatement 设置 sql 参数
+    // 为 PreparedStatement/CallableStatement 设置 sql 参数，即调用 ps.setXXX(i, parameter);
     handler.parameterize(stmt);
     return stmt;
   }

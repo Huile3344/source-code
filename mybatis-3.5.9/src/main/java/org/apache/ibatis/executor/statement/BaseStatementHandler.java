@@ -87,10 +87,13 @@ public abstract class BaseStatementHandler implements StatementHandler {
     try {
       // 通过 Connection 生成一个 Statement, 调用 connection.prepareStatement() 或 connection.createStatement() 或 connection.prepareCall() ，以及设置参数
       statement = instantiateStatement(connection);
+      // 设置 Statement 超时时间
       setStatementTimeout(statement, transactionTimeout);
+      // 设置 Statement 的 fetchSize
       setFetchSize(statement);
       return statement;
     } catch (SQLException e) {
+      // 异常时关闭 Statement
       closeStatement(statement);
       throw e;
     } catch (Exception e) {

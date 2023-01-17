@@ -23,6 +23,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * 一个 #{} 对应一个 ParameterMapping 对象
  * @author Clinton Begin
  */
 public class ParameterMapping {

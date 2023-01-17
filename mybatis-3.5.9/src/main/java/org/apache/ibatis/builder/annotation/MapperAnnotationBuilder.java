@@ -162,7 +162,9 @@ public class MapperAnnotationBuilder {
     // Spring may not know the real resource name so we check a flag
     // to prevent loading again a resource twice
     // this flag is set at XMLMapperBuilder#bindMapperForNamespace
+    // 翻译: Spring 可能不知道真正的资源名称，因此我们检查一个标志以防止再次加载资源两次此标志设置在 XMLMapperBuilder#bindMapperForNamespace
     if (!configuration.isResourceLoaded("namespace:" + type.getName())) {
+      // 找到 Mapper 类相同路径下的 .xml 文件
       String xmlResource = type.getName().replace('.', '/') + ".xml";
       // #1347
       InputStream inputStream = type.getResourceAsStream("/" + xmlResource);
@@ -174,8 +176,10 @@ public class MapperAnnotationBuilder {
           // ignore, resource is not required
         }
       }
+      // 若 Mapper 类相同路径下的 .xml 文件存在，则先加载 .xml 文件
       if (inputStream != null) {
         XMLMapperBuilder xmlParser = new XMLMapperBuilder(inputStream, assistant.getConfiguration(), xmlResource, configuration.getSqlFragments(), type.getName());
+        // *Mapper.xml 文件解析
         xmlParser.parse();
       }
     }

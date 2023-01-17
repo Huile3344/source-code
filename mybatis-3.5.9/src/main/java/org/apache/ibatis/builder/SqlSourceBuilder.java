@@ -47,6 +47,7 @@ public class SqlSourceBuilder extends BaseBuilder {
     if (configuration.isShrinkWhitespacesInSql()) {
       sql = parser.parse(removeExtraWhitespaces(originalSql));
     } else {
+      // 将原始的 sql 语句中 #{} 替换成 ? ， 并针对每个 #{} 生成一个与该字段紧密相关的 in 模式的 ParameterMapping ，包含: 字段名， java类型， jdbc类型， 类型转换器 等
       sql = parser.parse(originalSql);
     }
     return new StaticSqlSource(configuration, sql, handler.getParameterMappings());
@@ -88,7 +89,15 @@ public class SqlSourceBuilder extends BaseBuilder {
       return "?";
     }
 
+    /**
+     * content 对应 #{property|(expression), var1=value1, var2=value2, ...} 中 #{} 内的文本
+     * 示例: #{property|(expression), mode=IN|OUT|INOUT, javaType=int|ResultSet|..., jdbcType=CURSOR|NUMERIC|..., jdbcTypeName=..., typeHandler=MyTypeHandler, resultMap=MyResultMap, numericScale=2, ...}
+     * 通过 #{} 内的文本 构建一个 ParameterMapping
+     * @param content #{} 内的文本
+     * @return
+     */
     private ParameterMapping buildParameterMapping(String content) {
+      // 识别出其中的词， 再以,:=空格对内部词进行切分，解析出一个map对象
       Map<String, String> propertiesMap = parseParameterMapping(content);
       String property = propertiesMap.get("property");
       Class<?> propertyType;

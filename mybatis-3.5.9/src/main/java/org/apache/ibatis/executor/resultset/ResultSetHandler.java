@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.ibatis.cursor.Cursor;
 
 /**
+ * ResultSet 处理器，用于处理 ResultSet ，以及字段映射，生成对应实体
  * @author Clinton Begin
  */
 public interface ResultSetHandler {

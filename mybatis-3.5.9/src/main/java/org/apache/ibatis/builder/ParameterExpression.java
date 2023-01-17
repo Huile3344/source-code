@@ -39,6 +39,11 @@ public class ParameterExpression extends HashMap<String, String> {
     parse(expression);
   }
 
+  /**
+   * 解析 #{property|(expression), var1=value1, var2=value2, ...}
+   * 示例: #{property|(expression), mode=IN|OUT|INOUT, javaType=int|ResultSet|..., jdbcType=CURSOR|NUMERIC|..., jdbcTypeName=..., typeHandler=MyTypeHandler, resultMap=MyResultMap, numericScale=2, ...}
+  * @param expression
+   */
   private void parse(String expression) {
     int p = skipWS(expression, 0);
     if (expression.charAt(p) == '(') {
@@ -73,6 +78,7 @@ public class ParameterExpression extends HashMap<String, String> {
 
   private int skipWS(String expression, int p) {
     for (int i = p; i < expression.length(); i++) {
+      // 0x20 是空格
       if (expression.charAt(i) > 0x20) {
         return i;
       }

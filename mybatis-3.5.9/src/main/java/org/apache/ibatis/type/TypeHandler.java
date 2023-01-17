@@ -25,9 +25,19 @@ import java.sql.SQLException;
  */
 public interface TypeHandler<T> {
 
+  /**
+   * 用于往 PreparedStatement 中设置 sql 中占位符处对应的值，根据类型不同调用不同的 ps.setXXX(i, parameter)，示例如: ps.setInt(i, parameter);
+   * @param ps
+   * @param i
+   * @param parameter
+   * @param jdbcType
+   * @throws SQLException
+   */
   void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
   /**
+   * 用于从 ResultSet 中获取特定列的值，根据类型不同调用不同的 rs.getXXX(columnName)，示例如: rs.getInt(columnName);
+   *
    * Gets the result.
    *
    * @param rs
@@ -40,8 +50,22 @@ public interface TypeHandler<T> {
    */
   T getResult(ResultSet rs, String columnName) throws SQLException;
 
+  /**
+   * 用于从 ResultSet 中获取特定列的值，根据类型不同调用不同的 rs.getXXX(columnIndex)，示例如: rs.getInt(columnIndex);
+   * @param rs
+   * @param columnIndex
+   * @return
+   * @throws SQLException
+   */
   T getResult(ResultSet rs, int columnIndex) throws SQLException;
 
+  /**
+   * 用于从 CallableStatement 中获取特定列的值，根据类型不同调用不同的 rs.getXXX(columnIndex)，示例如: cs.getInt(columnIndex);
+   * @param cs
+   * @param columnIndex
+   * @return
+   * @throws SQLException
+   */
   T getResult(CallableStatement cs, int columnIndex) throws SQLException;
 
 }

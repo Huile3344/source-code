@@ -30,6 +30,9 @@ import org.apache.ibatis.session.Configuration;
  * {@link CallableStatement#wasNull()} method for handling the SQL {@code NULL} value.
  * In other words, {@code null} value handling should be performed on subclass.
  * </p>
+ * 翻译: 用于引用泛型类型的基本 TypeHandler。
+ * 重要提示：自 3.5.0 起，此类从不调用 ResultSet.wasNull() 和 CallableStatement.wasNull() 方法来处理 SQL NULL 值。
+ * 换句话说，空值处理应该在子类上进行。
  *
  * @author Clinton Begin
  * @author Simone Tripodi
